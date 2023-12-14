@@ -46,7 +46,20 @@ async function handleGetBooks( request, response ){
   response.status(200).json(books);
 }
 
+app.put('/books/:id', async (request, response) => {
+  try {
+    let book = request.body;
+    console.log("Adding ", book);
 
+    let id = request.params.id;
+
+    const updatedBook = await Book.findByIdAndUpdate (id, book, {new:true, overwrite:true })
+
+    response.json(updatedBook);
+  } catch(e) {
+    response.status(405).send(e.message);
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 
